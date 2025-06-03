@@ -4,7 +4,7 @@ const SearchPage = () => {
   return (
     <div>
       <p>search page</p>
-      <img src="https://pbs.twimg.com/media/FACQhyaUYAE3XO8.jpg" />
+      {/* <img src="https://pbs.twimg.com/media/FACQhyaUYAE3XO8.jpg" /> */}
     </div>
   );
 };
