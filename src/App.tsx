@@ -1,7 +1,8 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Route, Routes } from "react-router";
 import "./App.css";
 import PulseLoader from "react-spinners/PulseLoader";
+import useExchangeToken from "./hooks/useExchangeToken";
 
 // lazy loading 설정 - 필요한 순간 코드를 불러와서 번들 사이즈를 줄일 수 있음. 초기로딩이 빨라짐. -> Suspense처리!
 const AppLayout = React.lazy(() => import("./layout/AppLayout"));
@@ -24,6 +25,17 @@ const LibraryPage = React.lazy(() => import("./pages/LibraryPage/LibraryPage"));
 //5. (모바일) 플레이리스트 페이지       /playlist
 
 function App() {
+  const urlParams = new URLSearchParams(window.location.search);
+  let code = urlParams.get("code");
+  const codeVerifier = localStorage.getItem("code_verifier");
+
+  const { mutate: exchangeToken } = useExchangeToken();
+  useEffect(() => {
+    if (code && codeVerifier) {
+      exchangeToken({ code, codeVerifier });
+    }
+  }, [code, codeVerifier, exchangeToken]);
+
   return (
     <Suspense
       fallback={
