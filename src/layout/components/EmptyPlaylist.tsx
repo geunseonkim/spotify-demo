@@ -12,7 +12,7 @@ const EmptyPliBox = styled(Card)(({ theme }) => ({
 
 const EmptyPliButton = styled(Button)({
   marginTop: "10px",
-  padding: "8px 60px",
+  padding: "8px 50px",
   fontWeight: "700",
 });
 
@@ -20,7 +20,7 @@ const EmptyPlaylist = () => {
   return (
     <div>
       <EmptyPliBox>
-        <Typography variant="h2" fontWeight={700} sx={{ marginBottom: "5px" }}>
+        <Typography variant="h2" fontWeight={700} marginBottom="5px">
           Create your first playlist
         </Typography>
         <Typography variant="body1">It's easy, we'll help you</Typography>
