@@ -14,7 +14,7 @@ const CardContainer = styled("div")(({ theme }) => ({
   width: "100%",
   //   height: "100%",
   padding: "10px",
-  margin: "15px 10px",
+  margin: "10px 5px",
   borderRadius: "5px",
   "&:hover": {
     backgroundColor: alpha(theme.palette.primary.main, 0.3),

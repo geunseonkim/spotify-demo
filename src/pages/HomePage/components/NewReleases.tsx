@@ -16,7 +16,7 @@ const NewReleases = () => {
         New Released Albums
       </Typography>
       {data && data.albums.items.length > 0 ? (
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {data.albums.items.map((album) => (
             <Grid size={{ xs: 6, sm: 4, md: 2 }} key={album.id}>
               <Card
@@ -31,7 +31,7 @@ const NewReleases = () => {
         <Typography variant="h2">No Data</Typography>
       )}
       <img
-        width={300}
+        width={150}
         style={{ margin: "15px" }}
         src="https://i.pinimg.com/474x/b1/21/c5/b121c5f0fc61f5a27903d897cbbe160a.jpg?type=w800"
       />
