@@ -30,11 +30,11 @@ const NewReleases = () => {
       ) : (
         <Typography variant="h2">No Data</Typography>
       )}
-      <img
+      {/* <img
         width={150}
         style={{ margin: "15px" }}
         src="https://i.pinimg.com/474x/b1/21/c5/b121c5f0fc61f5a27903d897cbbe160a.jpg?type=w800"
-      />
+      /> */}
     </div>
   );
 };
