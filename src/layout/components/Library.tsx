@@ -43,7 +43,7 @@ const Library = () => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [inView]);
+  }, [inView, hasNextPage, isFetchingNextPage]);
 
   if (!user) return <EmptyPlaylist />;
   if (isLoading) return <PulseLoader />;
@@ -53,11 +53,13 @@ const Library = () => {
       {!data || data?.pages[0].total === 0 ? (
         <EmptyPlaylist />
       ) : (
-        <PlaylistBox>
+        <PlaylistBox id="playlist-scroll-container">
           {data?.pages.map((page, index) => (
             <Playlist playlists={page.items} key={index} />
           ))}
-          <div ref={ref}>{isFetchingNextPage && <PulseLoader />}</div>
+          <div ref={ref} style={{ minHeight: "50px" }}>
+            {isFetchingNextPage && <PulseLoader />}
+          </div>
         </PlaylistBox>
       )}
     </div>
