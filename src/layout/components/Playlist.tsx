@@ -22,8 +22,8 @@ const Playlist = ({ playlists }: PlaylistProps) => {
           image={(item.images && item.images[0]?.url) || null} //item?.images[0]?.url 이렇게만 적어주면 'null is not an object (evaluating 'item.images[0]')' 에러 발생.
           id={item.id || ""}
           artistName={"Playlist • " + item.owner?.display_name}
-          selected={selectedList === item.id}
           handleClick={handlePlaylistClick}
+          selected={selectedList === item.id}
         />
       ))}
     </div>

@@ -1,3 +1,5 @@
+import { Artist } from "./artist";
+
 export interface ExternalUrls {
   spotify?: string;
 }
