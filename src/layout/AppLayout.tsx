@@ -21,6 +21,7 @@ const Sidebar = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     display: "none",
   },
+  marginRight: "8px",
 }));
 
 const ContentBox = styled(Box)(({ theme }) => ({
@@ -31,6 +32,7 @@ const ContentBox = styled(Box)(({ theme }) => ({
   padding: "15px",
   marginBottom: "8px",
   marginRight: "8px",
+  overflow: "hidden",
 }));
 
 const NavList = styled("ul")({

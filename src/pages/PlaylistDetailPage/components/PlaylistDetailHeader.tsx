@@ -13,6 +13,7 @@ const PlaylistHeaderBox = styled("div")(({ theme }) => ({
   gap: "10px",
   padding: "10px",
   color: theme.palette.secondary.main,
+  marginBottom: "20px",
 }));
 
 const CoverImage = styled(Avatar)({

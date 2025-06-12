@@ -1,6 +1,7 @@
 import { ApiResponse } from "./apiResponse";
 import { Artist } from "./artist";
 import { ExternalUrls, Image, Owner } from "./commonType";
+import { Episode, Track } from "./track";
 
 export interface GetCurrentUserPlaylistRequest {
   limit?: number;
@@ -51,73 +52,9 @@ export interface PlaylistTrack {
     id: string;
     type: string;
     uri: string;
-  };
+  } | null;
   is_local?: boolean;
   track?: Track | Episode;
-}
-
-export interface Track {
-  type: "track";
-  id: string;
-  name: string;
-  duration_ms: number;
-  explicit: boolean;
-  popularity: number;
-  preview_url: string | null;
-  track_number: number;
-  uri: string;
-  href: string;
-  external_urls: ExternalUrls;
-  album: {
-    id: string;
-    name: string;
-    album_type: string;
-    total_tracks: number;
-    release_date: string;
-    release_date_precision: string;
-    uri: string;
-    href: string;
-    external_urls: {
-      spotify: string;
-    };
-    images: Image[];
-  };
-  artists: Artist[];
-  is_playable: boolean;
-  linked_from?: object;
-  restrictions?: {
-    reason: string;
-  };
-}
-
-export interface Episode {
-  type: "episode";
-  id: string;
-  name: string;
-  description: string;
-  html_description: string;
-  duration_ms: number;
-  explicit: boolean;
-  release_date: string;
-  release_date_precision: string;
-  uri: string;
-  href: string;
-  external_urls: ExternalUrls;
-  audio_preview_url: string | null;
-  language: string;
-  languages: string[];
-  is_externally_hosted: boolean;
-  is_playable: boolean;
-  show: {
-    id: string;
-    name: string;
-    publisher: string;
-    uri: string;
-    href: string;
-    type: string;
-    external_urls: ExternalUrls;
-  };
-  images: Image[];
 }
 
 export interface GetPlaylistRequest {
@@ -126,3 +63,10 @@ export interface GetPlaylistRequest {
   fields?: string;
   additional_types?: string;
 }
+
+export interface GetPlaylistItemsRequest extends GetPlaylistRequest {
+  offset?: number;
+  limit?: number;
+}
+
+export type GetPlaylistItemsResponse = ApiResponse<PlaylistTrack>;
