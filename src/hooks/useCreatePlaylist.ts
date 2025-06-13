@@ -15,7 +15,7 @@ const useCreatePlaylist = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["current-user-playlists"] });
-      console.log("성공");
+      // console.log("성공");
     },
   });
 };
