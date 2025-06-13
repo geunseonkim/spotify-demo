@@ -2,10 +2,12 @@ import { Avatar, Box, Menu, MenuItem, Typography } from "@mui/material";
 import React, { useState } from "react";
 import LoginButton from "../../common/components/LoginButton";
 import useGetCurrentUserProfile from "../../hooks/useGetCurrentUserProfile";
+import { useNavigate } from "react-router";
 
 const Navbar = () => {
   const { data: userProfile } = useGetCurrentUserProfile();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
 
   const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
@@ -16,9 +18,11 @@ const Navbar = () => {
   };
 
   const logout = () => {
+    // navigate("/");
     localStorage.removeItem("access_token");
     localStorage.removeItem("code_verifier");
     window.location.reload();
+    // navigate("/");
   };
   return (
     <Box

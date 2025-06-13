@@ -5,9 +5,11 @@ import PlaylistDetailHeader from "./components/PlaylistDetailHeader";
 import { PulseLoader } from "react-spinners";
 import ErrorMessage from "../../common/components/ErrorMessage";
 import useGetPlaylistItems from "../../hooks/useGetPlaylistItems";
-import { styled, Typography } from "@mui/material";
+import { Box, styled, Typography } from "@mui/material";
 import PlaylistDetailTable from "./components/PlaylistDetailTable";
 import { useInView } from "react-intersection-observer";
+import LoginButton from "../../common/components/LoginButton";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 const TrackListBox = styled("div")(({ theme }) => ({
   overflowY: "auto",
@@ -56,10 +58,44 @@ const PlaylistDetailPage = () => {
   }, [inView, hasNextPage, isFetchingNextPage]);
 
   if (isPlaylistLoading || isPlaylistItemsLoading) return <PulseLoader />;
-  if (PlaylistError)
-    return <ErrorMessage errorMessage={PlaylistError.message} />;
-  if (PlaylistItemsError)
-    return <ErrorMessage errorMessage={PlaylistItemsError.message} />;
+  // if (PlaylistError)
+  //   return <ErrorMessage errorMessage={PlaylistError.message} />;
+  // if (PlaylistItemsError)
+  //   return <ErrorMessage errorMessage={PlaylistItemsError.message} />;
+
+  const error = PlaylistError || PlaylistItemsError;
+  if (error) {
+    const status = (error as any)?.error?.status || (error as any)?.status; // error 객체가 어떤 구조일지 모르니 넓게 커버
+
+    if (status === 401 || !localStorage.getItem("access_token")) {
+      return (
+        <Box
+          display="flex"
+          alignItems="center"
+          // justifyContent="center"
+          marginTop="100px"
+          height="100%"
+          flexDirection="column"
+        >
+          <LockOutlinedIcon
+            color="primary"
+            sx={{ fontSize: "48px", marginBottom: "15px" }}
+          />
+          <Typography variant="h6" fontWeight={700}>
+            You've been logged out. Please sign in again.
+          </Typography>
+          <Typography variant="h6" fontWeight={700} mb={2}>
+            Please sign in again.
+          </Typography>
+          {/* <LoginButton /> */}
+        </Box>
+      );
+    }
+
+    return (
+      <ErrorMessage errorMessage="플레이리스트를 불러오는 데 실패했습니다." />
+    );
+  }
   return (
     <div>
       <PlaylistDetailHeader playlist={playlist} />

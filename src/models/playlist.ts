@@ -70,3 +70,11 @@ export interface GetPlaylistItemsRequest extends GetPlaylistRequest {
 }
 
 export type GetPlaylistItemsResponse = ApiResponse<PlaylistTrack>;
+
+export interface CreatePlaylistRequest {
+  name: string;
+  // public?: string;
+  playlistPublic?: string;
+  collaborative?: boolean;
+  description?: string;
+}

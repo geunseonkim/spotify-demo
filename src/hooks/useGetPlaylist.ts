@@ -5,9 +5,8 @@ import { getPlaylist } from "../apis/playlistApi";
 const useGetPlaylist = (params: GetPlaylistRequest) => {
   return useQuery({
     queryKey: ["playlist-detail", params.playlist_id],
-    queryFn: () => {
-      return getPlaylist(params);
-    },
+    queryFn: () => getPlaylist(params),
+    retry: false,
   });
 };
 
