@@ -46,7 +46,7 @@ const Library = () => {
   }, [inView, hasNextPage, isFetchingNextPage]);
 
   if (!user) return <EmptyPlaylist />;
-  if (isLoading) return <PulseLoader />;
+  if (isLoading) return <PulseLoader color="#1DB954" />;
   if (error) return <ErrorMessage errorMessage={error.message} />;
   return (
     <div>
@@ -58,7 +58,7 @@ const Library = () => {
             <Playlist playlists={page.items} key={index} />
           ))}
           <div ref={ref} style={{ minHeight: "50px" }}>
-            {isFetchingNextPage && <PulseLoader />}
+            {isFetchingNextPage && <PulseLoader color="#1DB954" />}
           </div>
         </PlaylistBox>
       )}

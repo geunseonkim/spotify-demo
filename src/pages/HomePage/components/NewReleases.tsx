@@ -8,7 +8,7 @@ import Card from "../../../common/components/Card";
 const NewReleases = () => {
   const { data, error, isLoading } = useGetNewReleases();
   // console.log("NewReleases", data);
-  if (isLoading) return <PulseLoader />;
+  if (isLoading) return <PulseLoader color="#1DB954" />;
   if (error) return <ErrorMessage errorMessage={error.message} />;
   return (
     <div>

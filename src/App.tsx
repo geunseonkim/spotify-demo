@@ -40,7 +40,7 @@ function App() {
     <Suspense
       fallback={
         <div>
-          <PulseLoader />
+          <PulseLoader color="#1DB954" />
         </div>
       }
     >

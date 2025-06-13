@@ -10,6 +10,7 @@ import PlaylistDetailTable from "./components/PlaylistDetailTable";
 import { useInView } from "react-intersection-observer";
 import LoginButton from "../../common/components/LoginButton";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import EmptyPlaylistWithSearch from "./components/EmptyPlaylistWithSearch";
 
 const TrackListBox = styled("div")(({ theme }) => ({
   overflowY: "auto",
@@ -57,7 +58,8 @@ const PlaylistDetailPage = () => {
     }
   }, [inView, hasNextPage, isFetchingNextPage]);
 
-  if (isPlaylistLoading || isPlaylistItemsLoading) return <PulseLoader />;
+  if (isPlaylistLoading || isPlaylistItemsLoading)
+    return <PulseLoader color="#1DB954" />;
   // if (PlaylistError)
   //   return <ErrorMessage errorMessage={PlaylistError.message} />;
   // if (PlaylistItemsError)
@@ -100,12 +102,12 @@ const PlaylistDetailPage = () => {
     <div>
       <PlaylistDetailHeader playlist={playlist} />
       {playlist?.tracks?.total === 0 ? (
-        <Typography>Search Bar</Typography>
+        <EmptyPlaylistWithSearch />
       ) : (
         <TrackListBox id="track-list-box">
           <PlaylistDetailTable playlistItems={tracks} />
           <div ref={ref} style={{ minHeight: "50px" }}>
-            {isFetchingNextPage && <PulseLoader />}
+            {isFetchingNextPage && <PulseLoader color="#1DB954" />}
           </div>
         </TrackListBox>
       )}
