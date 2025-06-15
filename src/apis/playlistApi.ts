@@ -6,6 +6,7 @@ import {
   GetPlaylistItemsResponse,
   GetPlaylistRequest,
   Playlist,
+  UpdatePlaylistRequest,
 } from "../models/playlist";
 import api from "../utils/api";
 
@@ -65,5 +66,19 @@ export const createPlaylist = async (
     return response.data;
   } catch (error) {
     throw new Error("Fail to create playlist");
+  }
+};
+
+export const updatePlaylist = async (
+  playlist_id: string,
+  params: UpdatePlaylistRequest
+): Promise<any> => {
+  try {
+    const response = await api.post(`/playlists/${playlist_id}/tracks`, {
+      uris: params.uris,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Fail to update playlist");
   }
 };

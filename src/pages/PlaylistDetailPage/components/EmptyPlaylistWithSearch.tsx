@@ -67,6 +67,9 @@ const EmptyPlaylistWithSearch = () => {
             isFetchingNextPage={isFetchingNextPage}
             fetchNextPage={fetchNextPage}
             root={scrollRef.current}
+            handleClick={function (list: string[]): void {
+              throw new Error("Function not implemented.");
+            }}
           />
         ) : keyword === "" ? (
           <></>

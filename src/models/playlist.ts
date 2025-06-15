@@ -78,3 +78,11 @@ export interface CreatePlaylistRequest {
   collaborative?: boolean;
   description?: string;
 }
+
+export interface UpdatePlaylistRequest {
+  uris?: string[];
+  range_start?: number;
+  insert_before?: string;
+  range_length?: number;
+  snapshot_id?: string;
+}

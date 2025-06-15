@@ -46,6 +46,9 @@ const PlaylistDetailPage = () => {
 
   const tracks = playlistItems?.pages.flatMap((page) => page.items) ?? []; // 모든 페이지에서 items 배열들을 꺼내 하나로 flat하게 합쳐 tracks 배열을 만듦!
 
+  console.log("data", playlistItems);
+  // console.log("tracks", tracks);
+
   const { ref, inView } = useInView({
     root: document.querySelector("#track-list-box"),
     rootMargin: "0px",
@@ -95,7 +98,7 @@ const PlaylistDetailPage = () => {
     }
 
     return (
-      <ErrorMessage errorMessage="플레이리스트를 불러오는 데 실패했습니다." />
+      <ErrorMessage errorMessage="플레이리스트를 불러오는데 실패했습니다." />
     );
   }
   return (

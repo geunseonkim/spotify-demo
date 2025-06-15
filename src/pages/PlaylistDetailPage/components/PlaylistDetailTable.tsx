@@ -14,7 +14,7 @@ interface playlistItemsProps {
 }
 
 const PlaylistDetailTable = ({ playlistItems }: playlistItemsProps) => {
-  console.log("pspspsps", playlistItems);
+  // console.log("playlistItems", playlistItems);
   return (
     <>
       <Table>
