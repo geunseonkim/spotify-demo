@@ -86,3 +86,32 @@ export interface UpdatePlaylistRequest {
   range_length?: number;
   snapshot_id?: string;
 }
+
+export interface GetBrowseCategoryRequest {
+  locale?: string;
+  limit?: number;
+  offset?: number;
+}
+
+export interface Category {
+  href: string;
+  icons: {
+    height: number | null;
+    url: string;
+    width: number | null;
+  }[];
+  id: string;
+  name: string;
+}
+
+export interface GetBrowseCategoryResponse {
+  categories: {
+    href: string;
+    items: Category[];
+    limit: number;
+    next: string | null;
+    offset: number;
+    previous: string | null;
+    total: number;
+  };
+}

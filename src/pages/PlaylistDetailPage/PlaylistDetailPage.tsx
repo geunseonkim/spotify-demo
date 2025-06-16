@@ -8,7 +8,6 @@ import useGetPlaylistItems from "../../hooks/useGetPlaylistItems";
 import { Box, styled, Typography } from "@mui/material";
 import PlaylistDetailTable from "./components/PlaylistDetailTable";
 import { useInView } from "react-intersection-observer";
-import LoginButton from "../../common/components/LoginButton";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import EmptyPlaylistWithSearch from "./components/EmptyPlaylistWithSearch";
 
@@ -92,7 +91,6 @@ const PlaylistDetailPage = () => {
           <Typography variant="h6" fontWeight={700} mb={2}>
             Please sign in again.
           </Typography>
-          {/* <LoginButton /> */}
         </Box>
       );
     }

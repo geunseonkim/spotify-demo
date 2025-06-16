@@ -1,5 +1,9 @@
+import axios from "axios";
+import { SPOTIFY_BASE_URL } from "../configs/commonConfig";
 import {
   CreatePlaylistRequest,
+  GetBrowseCategoryRequest,
+  GetBrowseCategoryResponse,
   GetCurrentUserPlaylistRequest,
   GetCurrentUserPlaylistResponse,
   GetPlaylistItemsRequest,
@@ -80,5 +84,24 @@ export const updatePlaylist = async (
     return response.data;
   } catch (error) {
     throw new Error("Fail to update playlist");
+  }
+};
+
+export const getBrowseCategory = async (
+  token?: string,
+  params?: GetBrowseCategoryRequest
+): Promise<GetBrowseCategoryResponse> => {
+  try {
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const response = await axios.get(`${SPOTIFY_BASE_URL}/browse/categories`, {
+      params,
+      headers,
+    });
+    return response.data;
+  } catch (error: any) {
+    if (error.response?.status === 401) {
+      throw new Error("Invalid or missing access token");
+    }
+    throw new Error("Fail to fetch browse categories");
   }
 };
