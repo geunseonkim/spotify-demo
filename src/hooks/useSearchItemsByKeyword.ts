@@ -6,7 +6,7 @@ import useClientCredentialToken from "./useClientCredentialToken";
 const useSearchItemsByKeyword = (params: SearchRequestParams) => {
   const clientCredentialToken = useClientCredentialToken();
   return useInfiniteQuery({
-    queryKey: ["search", params],
+    queryKey: ["search", params.q],
     queryFn: ({ pageParam = 0 }) => {
       if (!clientCredentialToken) throw new Error("no token available");
       return searchItemsByKeyword(clientCredentialToken, {

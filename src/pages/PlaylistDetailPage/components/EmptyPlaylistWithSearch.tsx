@@ -31,8 +31,12 @@ const EmptyPlaylistWithSearch = () => {
     type: [SEARCH_TYPE.Track],
   });
 
+  // console.log("search-data", data);
+
   const tracks = data?.pages.flatMap((page) => page.tracks?.items ?? []) ?? [];
   const hasResults = tracks.length > 0;
+
+  // console.log("search-tracks", tracks);
 
   const handleSearchByKeyword = (
     event: React.ChangeEvent<HTMLInputElement>

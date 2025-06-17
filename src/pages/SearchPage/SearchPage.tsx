@@ -30,7 +30,7 @@ const TiltedImage = styled("img")({
   top: "65%",
   right: -25,
   transform: "translateY(-50%) rotate(25deg)",
-  // borderRadius: 4,
+  borderRadius: 4,
 });
 
 const SearchPage = () => {

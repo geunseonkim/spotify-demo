@@ -17,8 +17,9 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const isSearchPage =
-    location.pathname === "/search" || location.pathname === "/search/";
+  // const isSearchPage =
+  //   location.pathname === "/search" || location.pathname === "/search/";
+  const isSearchPage = location.pathname.startsWith("/search");
 
   const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);

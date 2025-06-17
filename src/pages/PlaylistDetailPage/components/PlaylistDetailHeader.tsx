@@ -57,7 +57,7 @@ const TrackCount = styled(Typography)(({ theme }) => ({
 }));
 
 const PlaylistDetailHeader = ({ playlist }: PlaylistProps) => {
-  console.log("ppp", playlist);
+  // console.log("ppp", playlist);
   if (!playlist) {
     return <Typography>플레이리스트에 노래가 없습니다.</Typography>;
   }
