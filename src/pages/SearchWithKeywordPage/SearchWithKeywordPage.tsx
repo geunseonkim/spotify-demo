@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import useSearchItemsByKeyword from "../../hooks/useSearchItemsByKeyword";
 import { SEARCH_TYPE } from "../../models/search";
@@ -9,6 +9,8 @@ import {
   alpha,
   Box,
   Grid,
+  Menu,
+  MenuItem,
   Snackbar,
   styled,
   Typography,
@@ -17,15 +19,38 @@ import PlayButton from "../../common/components/PlayButton";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
 import Card from "../../common/components/Card";
 import useGetCurrentUserProfile from "../../hooks/useGetCurrentUserProfile";
+import useGetCurrentUserPlaylists from "../../hooks/useGetCurrentUserPlaylists";
+import { Track } from "../../models/track";
+import { updatePlaylist } from "../../apis/playlistApi";
 
 const SearchWithKeywordPage = () => {
   const { keyword } = useParams<{ keyword: string }>();
+  const [token, setToken] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    const storedToken = localStorage.getItem("access_token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
+  const menuRef = useRef<HTMLDivElement>(null);
   const { data, isLoading, error } = useSearchItemsByKeyword({
     q: keyword || "",
     type: [SEARCH_TYPE.Track, SEARCH_TYPE.Album, SEARCH_TYPE.Artist],
+    token,
   });
   const { data: userProfile } = useGetCurrentUserProfile();
+  const {
+    data: playlistsData,
+    isLoading: playlistsLoading,
+    hasNextPage, // 다음 페이지가 있어?
+    isFetchingNextPage, // 다음 페이지 부르는 중이야?
+    fetchNextPage, // 다음 페이지 불러줘.
+  } = useGetCurrentUserPlaylists({ limit: 10, offset: 0 });
   const [loginAlertOpen, setLoginAlertOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedTrack, setSelectedTrack] = useState<any | null>(null);
+  const [addSuccessMsg, setAddSuccessMsg] = useState("");
 
   // console.log("data", data);
 
@@ -36,10 +61,50 @@ const SearchWithKeywordPage = () => {
   if (isLoading) return <PulseLoader color="#1DB954" />;
   if (error) return <ErrorMessage errorMessage={error.message} />;
 
-  const handleAddPlaylist = () => {
+  const handleAddPlaylist = (
+    e: React.MouseEvent<HTMLElement>,
+    track: Track[]
+  ) => {
+    e.stopPropagation();
     if (!userProfile) {
       setLoginAlertOpen(true);
       return;
+    }
+    setAnchorEl(e.currentTarget);
+    setSelectedTrack(track);
+  };
+
+  const handleMenuScroll = () => {
+    const el = menuRef.current;
+    if (!el || isFetchingNextPage || !hasNextPage) return;
+
+    const bottomReached =
+      el.scrollTop + el.clientHeight >= el.scrollHeight - 10;
+    if (bottomReached) {
+      fetchNextPage();
+    }
+  };
+
+  const handleAddTrackToPlaylist = async (
+    playlistId: string,
+    playlistName: string
+  ) => {
+    if (!selectedTrack) return;
+
+    const uri = `spotify:track:${selectedTrack.id}`;
+    try {
+      await updatePlaylist(playlistId, { uris: [uri] });
+      setAddSuccessMsg(
+        `"${selectedTrack.name}" was added to "${playlistName}"`
+      );
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (error) {
+      setAddSuccessMsg("Failed to add track to playlist.");
+    } finally {
+      setAnchorEl(null);
+      setSelectedTrack(null);
     }
   };
 
@@ -88,7 +153,7 @@ const SearchWithKeywordPage = () => {
                 alt={song.name}
               />
               <Box flex={2}>
-                <Typography fontWeight={600}>{song?.album?.name}</Typography>
+                <Typography fontWeight={600}>{song?.name}</Typography>
                 <Typography variant="body2" color="text.secondary">
                   {song?.artists?.[0]?.name || "unknown artist"}
                 </Typography>
@@ -99,7 +164,7 @@ const SearchWithKeywordPage = () => {
                   <ControlPointOutlinedIcon
                     color="secondary"
                     sx={{ fontSize: "20px", cursor: "pointer" }}
-                    onClick={handleAddPlaylist}
+                    onClick={(e) => handleAddPlaylist(e, song)}
                   />
                 </PlusAddOverlay>
               </Box>
@@ -165,7 +230,56 @@ const SearchWithKeywordPage = () => {
         )}
       </div>
 
-      {/* Snackbar */}
+      {/* playlist 선택 menu 추가 */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => {
+          setAnchorEl(null);
+          setSelectedTrack(null);
+        }}
+        PaperProps={{
+          style: {
+            maxHeight: 150,
+            overflowY: "auto",
+          },
+          ref: menuRef,
+          onScroll: handleMenuScroll,
+        }}
+      >
+        {playlistsData?.pages?.flatMap((page) =>
+          page.items.map((playlist) => (
+            <MenuItem
+              key={playlist.id}
+              onClick={() =>
+                handleAddTrackToPlaylist(playlist.id!!, playlist.name!!)
+              }
+            >
+              {playlist.name}
+            </MenuItem>
+          ))
+        )}
+
+        {isFetchingNextPage && <MenuItem disabled>Loading more...</MenuItem>}
+      </Menu>
+
+      {/* 성공 Snackbar */}
+      <Snackbar
+        open={Boolean(addSuccessMsg)}
+        autoHideDuration={3000}
+        onClose={() => setAddSuccessMsg("")}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <Alert
+          onClose={() => setAddSuccessMsg("")}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {addSuccessMsg}
+        </Alert>
+      </Snackbar>
+
+      {/* 로그인 Snackbar */}
       <Snackbar
         open={loginAlertOpen}
         autoHideDuration={3000}

@@ -3,7 +3,9 @@ import { searchItemsByKeyword } from "../apis/searchApi";
 import { SearchRequestParams } from "../models/search";
 import useClientCredentialToken from "./useClientCredentialToken";
 
-const useSearchItemsByKeyword = (params: SearchRequestParams) => {
+const useSearchItemsByKeyword = (
+  params: SearchRequestParams & { token?: string }
+) => {
   const clientCredentialToken = useClientCredentialToken();
   return useInfiniteQuery({
     queryKey: ["search", params.q],
@@ -14,7 +16,7 @@ const useSearchItemsByKeyword = (params: SearchRequestParams) => {
         offset: pageParam,
       });
     },
-    enabled: !!params.q,
+    enabled: !!clientCredentialToken && !!params.q,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       const nextPageUrl =
