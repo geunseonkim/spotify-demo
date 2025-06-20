@@ -1,5 +1,11 @@
 import React, { useState, useRef } from "react";
-import { InputAdornment, TextField, Typography } from "@mui/material";
+import {
+  InputAdornment,
+  TextField,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import useSearchItemsByKeyword from "../../../hooks/useSearchItemsByKeyword";
 import { SEARCH_TYPE } from "../../../models/search";
 import SearchResultList from "./SearchResultList";
@@ -10,7 +16,6 @@ import styled from "@emotion/styled";
 const SearchContainer = styled("div")({
   height: "400px",
   overflowY: "auto",
-  //   border: "1px solid #ccc",
   marginTop: "20px",
   padding: "12px",
 });
@@ -18,6 +23,9 @@ const SearchContainer = styled("div")({
 const EmptyPlaylistWithSearch = () => {
   const [keyword, setKeyword] = useState<string>("");
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const {
     data,
@@ -31,12 +39,8 @@ const EmptyPlaylistWithSearch = () => {
     type: [SEARCH_TYPE.Track],
   });
 
-  // console.log("search-data", data);
-
   const tracks = data?.pages.flatMap((page) => page.tracks?.items ?? []) ?? [];
   const hasResults = tracks.length > 0;
-
-  // console.log("search-tracks", tracks);
 
   const handleSearchByKeyword = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -48,14 +52,24 @@ const EmptyPlaylistWithSearch = () => {
 
   return (
     <div>
-      <Typography variant="h1" my="10px">
-        Your next obsession is ONE search away
+      <Typography
+        variant={isMobile ? "h6" : "h1"}
+        my={isMobile ? "8px" : "10px"}
+        fontWeight={700}
+      >
+        {isMobile ? "Find your vibe" : "Your next obsession is ONE search away"}
       </Typography>
       <TextField
         value={keyword}
         onChange={handleSearchByKeyword}
-        placeholder=" ...... yet"
-        sx={{ width: "300px" }}
+        placeholder={isMobile ? "search..." : " ...... yet"}
+        sx={{
+          width: {
+            xs: "80vw",
+            sm: "300px",
+            md: "300px",
+          },
+        }}
         InputProps={{
           startAdornment: <InputAdornment position="start">🎧</InputAdornment>,
         }}
@@ -78,7 +92,11 @@ const EmptyPlaylistWithSearch = () => {
         ) : keyword === "" ? (
           <></>
         ) : (
-          <Typography variant="body1" color="text.secondary">
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            mt={isMobile ? 2 : 3}
+          >
             No results found for "{keyword}"
           </Typography>
         )}
