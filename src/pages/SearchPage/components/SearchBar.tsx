@@ -49,7 +49,7 @@ const SearchBar = () => {
           placeholder=" what do you wanna play?"
           variant="outlined"
           sx={{
-            width: isMobile ? 230 : 300,
+            width: isMobile ? 200 : 300,
             maxWidth: 300,
             borderRadius: "25px",
             "& .MuiOutlinedInput-root": {
