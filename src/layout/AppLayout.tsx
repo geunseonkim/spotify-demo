@@ -32,7 +32,9 @@ const ContentBox = styled(Box)(({ theme }) => ({
   padding: "15px",
   marginBottom: "8px",
   marginRight: "8px",
-  overflow: "hidden",
+  // overflow: "hidden",
+  height: "100%",
+  overflowY: "auto",
 }));
 
 const NavList = styled("ul")({
@@ -56,11 +58,23 @@ const StyledNavLink = styled(NavLink)(({ theme }) => ({
   },
 }));
 
+const ShortContentBox = styled(ContentBox)({
+  height: "auto",
+  maxHeight: 120,
+  overflowY: "auto",
+});
+
+const LongContentBox = styled(ContentBox)({
+  flexGrow: 1, // 가능한 공간 모두 차지.
+  minHeight: 0, // flexbox에서 스크롤이 제대로 작동하려면 필요함!
+  overflowY: "auto",
+});
+
 const AppLayout = () => {
   return (
     <Layout>
       <Sidebar>
-        <ContentBox>
+        <ShortContentBox>
           <NavList>
             <StyledNavLink to="/">
               <HomeIcon />
@@ -76,12 +90,12 @@ const AppLayout = () => {
               </Typography>
             </StyledNavLink>
           </NavList>
-        </ContentBox>
+        </ShortContentBox>
 
-        <ContentBox>
+        <LongContentBox>
           <LibraryHead />
           <Library />
-        </ContentBox>
+        </LongContentBox>
       </Sidebar>
 
       <ContentBox>

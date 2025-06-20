@@ -55,6 +55,7 @@ const SearchWithKeywordPage = () => {
   // console.log("data", data);
 
   const TrackResults = data?.pages?.[0]?.tracks?.items ?? [];
+  console.log("tst", TrackResults);
   const ArtistResults = data?.pages?.[0]?.artists?.items ?? [];
   const AlbumResults = data?.pages?.[0]?.albums?.items ?? [];
 
