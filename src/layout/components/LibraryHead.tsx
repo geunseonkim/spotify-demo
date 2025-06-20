@@ -1,6 +1,14 @@
 import React from "react";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import { Box, Button, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  styled,
+  Typography,
+  useTheme,
+  useMediaQuery,
+  Avatar,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import useCreatePlaylist from "../../hooks/useCreatePlaylist";
 import useGetCurrentUserProfile from "../../hooks/useGetCurrentUserProfile";
@@ -16,9 +24,20 @@ const StyledLibraryAdd = styled("div")({
   width: "100%",
 });
 
+const MobileLibraryHeader = styled(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "8px",
+  width: "100%",
+});
+
 const LibraryHead = () => {
   const { mutate: createPlaylist, error } = useCreatePlaylist();
   const { data: userProfile } = useGetCurrentUserProfile();
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleCreatePlaylist = () => {
     if (userProfile) {
@@ -27,23 +46,50 @@ const LibraryHead = () => {
       getSpotifyAuthUrl();
     }
   };
-  return (
-    <div>
-      <StyledLibraryAdd>
-        <BookmarkIcon fontSize="medium" />
+
+  // 모바일 전용 헤더
+  if (isMobile) {
+    return (
+      <MobileLibraryHeader>
         <Typography
           variant="h1"
           fontWeight={700}
-          ml={4}
           style={{ whiteSpace: "nowrap" }}
         >
           Your Library
         </Typography>
-        <Button onClick={handleCreatePlaylist} size="small" variant="text">
-          <AddIcon fontSize="medium" color="primary" />
-        </Button>
-      </StyledLibraryAdd>
-    </div>
+        <Box display="flex" alignItems="center" gap={1}>
+          <Button onClick={handleCreatePlaylist} size="small" variant="text">
+            <AddIcon fontSize="medium" color="primary" />
+          </Button>
+          {userProfile?.images?.[0]?.url && (
+            <Avatar
+              alt={userProfile.display_name}
+              src={userProfile.images[0].url}
+              sx={{ width: 36, height: 36 }}
+            />
+          )}
+        </Box>
+      </MobileLibraryHeader>
+    );
+  }
+
+  // 데스크탑용 기존 헤더
+  return (
+    <StyledLibraryAdd>
+      <BookmarkIcon fontSize="medium" />
+      <Typography
+        variant="h1"
+        fontWeight={700}
+        ml={4}
+        style={{ whiteSpace: "nowrap" }}
+      >
+        Your Library
+      </Typography>
+      <Button onClick={handleCreatePlaylist} size="small" variant="text">
+        <AddIcon fontSize="medium" color="primary" />
+      </Button>
+    </StyledLibraryAdd>
   );
 };
 

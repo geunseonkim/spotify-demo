@@ -23,9 +23,9 @@ const RunningTrack = () => {
       <Typography variant="h1" fontWeight={800} mt={2}>
         Run With Me 🏃‍♀️
         <Typography
-          variant="h2"
+          variant="body2"
           color="text.secondary"
-          sx={{ maxWidth: 600, lineHeight: 1.5 }}
+          sx={{ lineHeight: 1.4, letterSpacing: 0.3 }}
           mt={1}
         >
           Lose yourself in the music and forget everything else. <br />

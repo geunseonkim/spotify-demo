@@ -6,6 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import LibraryHead from "./components/LibraryHead";
 import Library from "./components/Library";
 import Navbar from "./components/Navbar";
+import MobileNav from "./components/MobileNav";
 
 const Layout = styled("div")({
   display: "flex",
@@ -35,6 +36,7 @@ const ContentBox = styled(Box)(({ theme }) => ({
   // overflow: "hidden",
   height: "100%",
   overflowY: "auto",
+  paddingBottom: "50px",
 }));
 
 const NavList = styled("ul")({
@@ -73,6 +75,7 @@ const LongContentBox = styled(ContentBox)({
 const AppLayout = () => {
   return (
     <Layout>
+      {/* 데스크탑 사이드바 */}
       <Sidebar>
         <ShortContentBox>
           <NavList>
@@ -98,10 +101,14 @@ const AppLayout = () => {
         </LongContentBox>
       </Sidebar>
 
+      {/* 메인 콘텐츠 */}
       <ContentBox>
         <Navbar />
         <Outlet />
       </ContentBox>
+
+      {/* 모바일 하단 바 */}
+      <MobileNav />
     </Layout>
   );
 };

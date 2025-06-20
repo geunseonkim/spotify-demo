@@ -8,10 +8,8 @@ import ErrorMessage from "../../../common/components/ErrorMessage";
 
 const ArtistCard = styled(Box)(({ theme }) => ({
   position: "relative",
-  width: "calc(100% / 6 - 16px)", // 6등분에서 gap 고려.
-  margin: "4px 8px",
-  paddingTop: "8px",
-  paddingBottom: "8px",
+  margin: "8px",
+  padding: "8px",
   borderRadius: "8px",
   overflow: "hidden",
   backgroundColor: theme.palette.background.paper,
@@ -26,6 +24,18 @@ const ArtistCard = styled(Box)(({ theme }) => ({
   },
   "&:hover .artistOverlay": {
     opacity: 1,
+  },
+
+  // 반응형 width 설정
+  width: "calc(50% - 16px)", // 기본: 모바일 (2개)
+  [theme.breakpoints.up("sm")]: {
+    width: "calc(33.33% - 16px)", // small 이상: 3개
+  },
+  [theme.breakpoints.up("md")]: {
+    width: "calc(25% - 16px)", // medium 이상: 4개
+  },
+  [theme.breakpoints.up("lg")]: {
+    width: "calc(16.66% - 16px)", // large 이상: 6개
   },
 }));
 

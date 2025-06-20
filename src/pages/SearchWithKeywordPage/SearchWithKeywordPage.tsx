@@ -111,15 +111,23 @@ const SearchWithKeywordPage = () => {
 
   return (
     <div>
-      <Box sx={{ width: "100%", display: "flex" }}>
+      <Box
+        sx={{
+          width: "100%",
+          display: { xs: "block", md: "flex" }, // 📱 모바일에선 block이 더 깔끔
+          flexDirection: { md: "row" },
+          gap: 2,
+          marginTop: "10px",
+        }}
+      >
         {/* top result */}
-        <div style={{ width: "45%" }}>
+        <Box sx={{ width: { xs: "100%", md: "45%" } }}>
           <Typography variant="h1" fontWeight={800}>
             Top result
           </Typography>
           {TrackResults.length > 0 ? (
             <TopResultBox>
-              <div style={{ position: "relative" }}>
+              <Box sx={{ position: "relative" }}>
                 <AlbumImage
                   src={TrackResults[0]?.album?.images?.[0]?.url || ""}
                   alt={TrackResults[0]?.name || ""}
@@ -134,19 +142,18 @@ const SearchWithKeywordPage = () => {
                 <Overlay className="overlay">
                   <PlayButton />
                 </Overlay>
-              </div>
+              </Box>
             </TopResultBox>
           ) : (
             <Typography>No top result found</Typography>
           )}
-        </div>
+        </Box>
 
         {/* songs */}
-        <div style={{ width: "55%" }}>
+        <Box sx={{ width: { xs: "100%", md: "55%" } }}>
           <Typography variant="h1" fontWeight={800}>
             Songs
           </Typography>
-
           {TrackResults?.slice(0, 4).map((song, i) => (
             <TrackItem key={i}>
               <SongsAlbumImage
@@ -159,7 +166,6 @@ const SearchWithKeywordPage = () => {
                   {song?.artists?.[0]?.name || "unknown artist"}
                 </Typography>
               </Box>
-
               <Box flex={1}>
                 <PlusAddOverlay className="plusAddOverlay">
                   <ControlPointOutlinedIcon
@@ -169,7 +175,6 @@ const SearchWithKeywordPage = () => {
                   />
                 </PlusAddOverlay>
               </Box>
-
               <SecondaryText>
                 {song?.duration_ms
                   ? `${Math.floor(song?.duration_ms / 60000)}:${String(
@@ -179,12 +184,12 @@ const SearchWithKeywordPage = () => {
               </SecondaryText>
             </TrackItem>
           ))}
-        </div>
+        </Box>
       </Box>
 
       {/* artists */}
       <div>
-        <Typography variant="h1" fontWeight={800} mb={2}>
+        <Typography variant="h1" fontWeight={800} mt={2} mb={1}>
           Artists
         </Typography>
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0 }}>
@@ -367,10 +372,8 @@ const PlusAddOverlay = styled("div")({
 
 const ArtistCard = styled(Box)(({ theme }) => ({
   position: "relative",
-  width: "calc(100% / 6 - 16px)", // 6등분에서 gap 고려.
-  margin: "4px 8px",
-  paddingTop: "8px",
-  paddingBottom: "8px",
+  margin: "8px",
+  padding: "8px",
   borderRadius: "8px",
   overflow: "hidden",
   backgroundColor: theme.palette.background.paper,
@@ -385,6 +388,18 @@ const ArtistCard = styled(Box)(({ theme }) => ({
   },
   "&:hover .artistOverlay": {
     opacity: 1,
+  },
+
+  // 반응형 width 설정
+  width: "calc(50% - 16px)", // 기본: 모바일 (2개)
+  [theme.breakpoints.up("sm")]: {
+    width: "calc(33.33% - 16px)", // small 이상: 3개
+  },
+  [theme.breakpoints.up("md")]: {
+    width: "calc(25% - 16px)", // medium 이상: 4개
+  },
+  [theme.breakpoints.up("lg")]: {
+    width: "calc(16.66% - 16px)", // large 이상: 6개
   },
 }));
 

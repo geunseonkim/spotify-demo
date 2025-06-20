@@ -1,100 +1,89 @@
 import React from "react";
 import { Playlist } from "../../../models/playlist";
-import { Avatar, Box, styled, Typography } from "@mui/material";
-import { PulseLoader } from "react-spinners";
+import {
+  Avatar,
+  Box,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  styled,
+} from "@mui/material";
 
 interface PlaylistProps {
   playlist?: Playlist;
 }
 
-const PlaylistHeaderBox = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  padding: "10px",
-  color: theme.palette.secondary.main,
-  marginBottom: "20px",
-}));
-
 const CoverImage = styled(Avatar)({
   width: "150px",
   height: "150px",
   borderRadius: "5px",
+  marginBottom: "10px",
 });
 
-const PlaylistInfo = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  marginLeft: "20px",
-});
+//   // 플레이리스트 네임
+//   console.log("pap", playlist?.name);
 
-const PlaylistName = styled(Typography)({
-  fontSize: "2rem",
-  fontWeight: "bold",
-  marginBottom: "8px",
-});
+//   // 플레이리스트 오너
+//   console.log("pap", playlist?.owner?.display_name);
 
-const SpotifyIcon = styled("img")({
-  width: "16px",
-  height: "16px",
-  objectFit: "contain",
-});
+//   // 플레이리스트 총 곡수
+//   console.log("pbp", playlist?.tracks?.total);
 
-const PlaylistOwner = styled(Typography)(({ theme }) => ({
-  color: theme.palette.grey[400],
-  //   marginBottom: "4px",
-}));
-
-const OwnerRow = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-  gap: "6px",
-});
-
-const TrackCount = styled(Typography)(({ theme }) => ({
-  color: theme.palette.grey[500],
-}));
+//   //플레이리스트 이미지
+//   console.log(playlist?.images?.[0]?.url);
 
 const PlaylistDetailHeader = ({ playlist }: PlaylistProps) => {
-  // console.log("ppp", playlist);
-  if (!playlist) {
-    return <Typography>플레이리스트에 노래가 없습니다.</Typography>;
-  }
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  //   // 플레이리스트 네임
-  //   console.log("pap", playlist?.name);
-
-  //   // 플레이리스트 오너
-  //   console.log("pap", playlist?.owner?.display_name);
-
-  //   // 플레이리스트 총 곡수
-  //   console.log("pbp", playlist?.tracks?.total);
-
-  //   //플레이리스트 이미지
-  //   console.log(playlist?.images?.[0]?.url);
+  if (!playlist) return null;
 
   return (
-    <PlaylistHeaderBox>
+    <Box
+      display="flex"
+      flexDirection={isMobile ? "column" : "row"}
+      alignItems="center"
+      px={2}
+      py={3}
+    >
       <CoverImage
-        src={playlist.images?.[0]?.url}
-        alt={`${playlist.name} playlist cover`}
         variant="square"
+        src={playlist.images?.[0]?.url}
+        alt="Playlist Cover"
       />
-      <PlaylistInfo>
-        <PlaylistName>{playlist.name}</PlaylistName>
-        <OwnerRow>
-          <SpotifyIcon
+
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems={isMobile ? "center" : "flex-start"}
+        ml={isMobile ? 0 : 3}
+        mt={isMobile ? 1 : 0}
+      >
+        <Typography
+          fontSize="1.8rem"
+          fontWeight={700}
+          textAlign={isMobile ? "center" : "left"}
+        >
+          {playlist.name}
+        </Typography>
+
+        <Box display="flex" alignItems="center" gap={1} mt={1}>
+          <img
             src="https://static-00.iconduck.com/assets.00/spotify-icon-2048x2048-g0v0xlc4.png"
-            alt="Spotify icon"
+            width={16}
+            height={16}
+            alt="Spotify"
           />
-          <PlaylistOwner>
+          <Typography variant="body2" color="text.secondary">
             Created by {playlist.owner?.display_name || "Unknown"}
-          </PlaylistOwner>
-          <TrackCount>• {playlist.tracks?.total} songs</TrackCount>
-        </OwnerRow>
-      </PlaylistInfo>
-    </PlaylistHeaderBox>
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            • {playlist.tracks?.total} songs
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

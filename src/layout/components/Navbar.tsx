@@ -66,7 +66,13 @@ const Navbar = () => {
                     }
                     sx={{ width: 40, height: 40 }}
                   />
-                  <Typography variant="body1" color="text.primary">
+                  <Typography
+                    variant="body1"
+                    color="text.primary"
+                    sx={{
+                      display: { xs: "none", sm: "block" },
+                    }}
+                  >
                     {userProfile.display_name}
                   </Typography>
                 </Box>
@@ -96,7 +102,13 @@ const Navbar = () => {
                   }
                   sx={{ width: 40, height: 40 }}
                 />
-                <Typography variant="body1" color="text.primary">
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  sx={{
+                    display: { xs: "none", sm: "block" },
+                  }}
+                >
                   {userProfile.display_name}
                 </Typography>
               </Box>
