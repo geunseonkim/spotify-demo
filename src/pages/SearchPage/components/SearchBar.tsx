@@ -46,10 +46,10 @@ const SearchBar = () => {
           //     handleSubmit();
           //   }
           // }}
-          placeholder=" what do you wanna play?"
+          placeholder={isMobile ? "search" : "what do you wanna play?"}
           variant="outlined"
           sx={{
-            width: isMobile ? 200 : 300,
+            width: isMobile ? 150 : 300,
             maxWidth: 300,
             borderRadius: "25px",
             "& .MuiOutlinedInput-root": {
